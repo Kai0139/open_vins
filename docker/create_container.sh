@@ -2,6 +2,8 @@
 IMAGE_NAME=osrf/ros
 IMAGE_TAG=noetic-desktop-full
 
+echo hello
+
 DOCKER_CATKINWS=/home/username/workspace/catkin_ws_ov
 DOCKER_DATASETS=/home/username/datasets
 
