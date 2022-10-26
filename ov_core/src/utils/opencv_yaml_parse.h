@@ -71,6 +71,7 @@ public:
     }
 
     // Open the file, error if we can't
+    PRINT_INFO("Openning config file: %s\n", config_path.c_str());
     config = std::make_shared<cv::FileStorage>(config_path, cv::FileStorage::READ);
     if (!fail_if_not_found && !config->isOpened()) {
       config = nullptr;
