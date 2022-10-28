@@ -12,5 +12,5 @@ imu0:
   gyroscope_random_walk: 6.509823412408377e-07        # [ rad / s^2 / sqrt(Hz) ] ( gyro bias diffusion )
   model: calibrated
   rostopic: /stim300/imu/data_raw
-  time_offset: 0.0
+  time_offset: -0.11942262945471108
   update_rate: 200.0

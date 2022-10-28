@@ -29,6 +29,7 @@
 
 #include "Feature.h"
 #include "FeatureDatabase.h"
+#include "utils/colors.h"
 #include "utils/print.h"
 
 namespace ov_core {
@@ -75,6 +76,7 @@ public:
         auto it0 = std::find(feat->timestamps.at(camid).begin(), feat->timestamps.at(camid).end(), time0);
         auto it1 = std::find(feat->timestamps.at(camid).begin(), feat->timestamps.at(camid).end(), time1);
         if (it0 == feat->timestamps.at(camid).end() || it1 == feat->timestamps.at(camid).end())
+          PRINT_DEBUG(YELLOW "could not locate two timestamps\n" RESET);
           continue;
         auto idx0 = std::distance(feat->timestamps.at(camid).begin(), it0);
         auto idx1 = std::distance(feat->timestamps.at(camid).begin(), it1);
@@ -164,6 +166,7 @@ public:
       disp_mean = -1;
       disp_var = -1;
       total_feats = 0;
+      PRINT_DEBUG(GREEN "disparity size is smaller than 2.\n" RESET);
     }
 
     // Compute mean and standard deviation in respect to it
