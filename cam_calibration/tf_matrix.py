@@ -28,8 +28,8 @@ def transformation_matrix(q, t):
     ])
 
     rotm = np.concatenate((R0.as_matrix(), np.array([[0, 0, 0]])), axis=0)
-    rotm = np.concatenate((rotm, np.array([[0, 0, 0, 1]]).T), axis=1)
-
+    rotm = np.concatenate((rotm, np.array([[0, 0, 0, 0]]).T), axis=1)
+    print(rotm)
     tf = rotm + tm
     return tf
 
@@ -42,9 +42,6 @@ q_cam1 = [0.494020, 0.500019, -0.504264, 0.501638]
 t_cam1 = [-0.092345, -0.020508, -0.079230]
 
 transformation_cam1 = transformation_matrix(q_cam1, t_cam1)
-
-q_imu = [0.9999904, -0.0000975849, 0.00362322, 0.002418683]
-t_imu = [-0.0009, 0.0125, 0.0878]
 
 print("transformation matrix of cam0:\n{}".format(transformation_cam0))
 print("inverse tf cam0:\n{}".format(np.linalg.inv(transformation_cam0)))
