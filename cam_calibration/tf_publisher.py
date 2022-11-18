@@ -63,12 +63,11 @@ if __name__ == "__main__":
     q_cam1_xyzw = (0.500019, -0.504264, 0.501638, 0.494020)
     t_cam1 = (-0.092345, -0.020508, -0.079230)
     
-    quatx = quat_x(math.radians(90))
-    q_cam0_wxyz_rot = quat_mult(quatx, q_cam0_wxyz)
-    q_cam1_wxyz_rot = quat_mult(quatx, q_cam1_wxyz)
+    q_cam0_fixed = [-0.4996224999999999, 0.49902550000000007, -0.5097335, 0.4914475]
+    t_cam0_fixed = [0.022029000000000014, 0.067436, -0.078333]
 
-    q_cam0_xyzw_rot = wxyz_to_xyzw(q_cam0_wxyz_rot)
-    q_cam1_xyzw_rot = wxyz_to_xyzw(q_cam1_wxyz_rot)
+    q_cam1_fixed = [-0.5059505, 0.4983325000000001, -0.4999515000000001, 0.4957065]
+    t_cam1_fixed = [0.020507999999999978, -0.092345, -0.07923]
 
     fixed_frame_name = "global"
 
@@ -77,8 +76,8 @@ if __name__ == "__main__":
     br = tf.TransformBroadcaster()
 
     while not rospy.is_shutdown():
-        br.sendTransform(t_cam0, tuple(q_cam0_xyzw), rospy.Time.now(), "cam0", fixed_frame_name)
-        br.sendTransform(t_cam1, tuple(q_cam1_xyzw), rospy.Time.now(), "cam1", fixed_frame_name)
+        br.sendTransform(t_cam0_fixed, tuple(q_cam0_fixed), rospy.Time.now(), "cam0", fixed_frame_name)
+        br.sendTransform(t_cam1_fixed, tuple(q_cam1_fixed), rospy.Time.now(), "cam1", fixed_frame_name)
         lr.sleep()
 
 
