@@ -33,17 +33,17 @@ def transformation_matrix(q, t):
     tf = rotm + tm
     return tf
 
-q_cam0 = [0.500292, 0.490181, -0.508467, 0.500889]
+q_cam0 = [-0.500292, 0.490181, -0.508467, 0.500889]
 t_cam0 = [0.067436, -0.022029, -0.078333]
 
 transformation_cam0 = transformation_matrix(q_cam0, t_cam0)
 
-q_cam1 = [0.494020, 0.500019, -0.504264, 0.501638]
+q_cam1 = [-0.494020, 0.500019, -0.504264, 0.501638]
 t_cam1 = [-0.092345, -0.020508, -0.079230]
 
 transformation_cam1 = transformation_matrix(q_cam1, t_cam1)
 
 print("transformation matrix of cam0:\n{}".format(transformation_cam0))
-print("inverse tf cam0:\n{}".format(np.linalg.inv(transformation_cam0)))
+# print("inverse tf cam0:\n{}".format(np.linalg.inv(transformation_cam0)))
 print("transformation matrix of cam1:\n{}".format(transformation_cam1))
-print("inverse tf cam1:\n{}".format(np.linalg.inv(transformation_cam1)))
+# print("inverse tf cam1:\n{}".format(np.linalg.inv(transformation_cam1)))

@@ -69,15 +69,15 @@ if __name__ == "__main__":
     q_cam1_fixed = [-0.5059505, 0.4983325000000001, -0.4999515000000001, 0.4957065]
     t_cam1_fixed = [0.020507999999999978, -0.092345, -0.07923]
 
-    fixed_frame_name = "global"
+    fixed_frame_name = "cam0"
 
     rospy.init_node("tf_publisher")
     lr = rospy.Rate(10)
     br = tf.TransformBroadcaster()
 
     while not rospy.is_shutdown():
-        br.sendTransform(t_cam0_fixed, tuple(q_cam0_fixed), rospy.Time.now(), "cam0", fixed_frame_name)
-        br.sendTransform(t_cam1_fixed, tuple(q_cam1_fixed), rospy.Time.now(), "cam1", fixed_frame_name)
+        br.sendTransform(t_cam0, tuple(q_cam0_xyzw), rospy.Time.now(), "imu", fixed_frame_name)
+        # br.sendTransform(t_cam1, tuple(q_cam1_xyzw), rospy.Time.now(), "imu", fixed_frame_name)
         lr.sleep()
 
 
