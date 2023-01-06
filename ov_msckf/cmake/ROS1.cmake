@@ -117,7 +117,7 @@ if (catkin_FOUND AND ENABLE_ROS)
     )
 
     add_executable(run_subscribe_msckf src/run_subscribe_msckf.cpp)
-    target_link_libraries(run_subscribe_msckf ov_msckf_lib ${thirdparty_libraries})
+    target_link_libraries(run_subscribe_msckf ov_msckf_lib profiler ${thirdparty_libraries})
     install(TARGETS run_subscribe_msckf
             ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
             LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}

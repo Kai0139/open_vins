@@ -33,6 +33,8 @@
 #include <rclcpp/rclcpp.hpp>
 #endif
 
+#include <gperftools/profiler.h>
+
 using namespace ov_msckf;
 
 std::shared_ptr<VioManager> sys;
@@ -45,6 +47,7 @@ std::shared_ptr<ROS2Visualizer> viz;
 // Main function
 int main(int argc, char **argv) {
 
+  ProfilerStart("/home/iadc02/perftools/profiles/open_vins_t0.prof");
   // Ensure we have a path, if the user passes it then we should use it
   std::string config_path = "unset_path_to_config.yaml";
   if (argc > 1) {
@@ -75,7 +78,7 @@ int main(int argc, char **argv) {
 #endif
 
   // Verbosity
-  std::string verbosity = "DEBUG";
+  std::string verbosity = "INFO";
   parser->parse_config("verbosity", verbosity);
   ov_core::Printer::setPrintLevel(verbosity);
 
@@ -120,6 +123,7 @@ int main(int argc, char **argv) {
   rclcpp::shutdown();
 #endif
 
+  ProfilerStop();
   // Done!
   return EXIT_SUCCESS;
 }
