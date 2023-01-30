@@ -62,7 +62,6 @@ void TrackDescriptor::feed_new_camera(const CameraData &message) {
 }
 
 void TrackDescriptor::feed_monocular(const CameraData &message, size_t msg_id) {
-
   // Start timing
   rT1 = boost::posix_time::microsec_clock::local_time();
 
@@ -178,7 +177,6 @@ void TrackDescriptor::feed_monocular(const CameraData &message, size_t msg_id) {
 }
 
 void TrackDescriptor::feed_stereo(const CameraData &message, size_t msg_id_left, size_t msg_id_right) {
-
   // Start timing
   rT1 = boost::posix_time::microsec_clock::local_time();
 
@@ -414,9 +412,17 @@ void TrackDescriptor::perform_detection_stereo(const cv::Mat &img0, const cv::Ma
   parallel_for_(cv::Range(0, 2), LambdaBody([&](const cv::Range &range) {
                   for (int i = range.start; i < range.end; i++) {
                     bool is_left = (i == 0);
-                    Grider_FAST::perform_griding(is_left ? img0 : img1, is_left ? mask0 : mask1, is_left ? pts0_ext : pts1_ext,
-                                                 num_features, grid_x, grid_y, threshold, true);
-                    (is_left ? orb0 : orb1)->compute(is_left ? img0 : img1, is_left ? pts0_ext : pts1_ext, is_left ? desc0_ext : desc1_ext);
+                    if(useFAST)
+                    {
+                      Grider_FAST::perform_griding(is_left ? img0 : img1, is_left ? mask0 : mask1, is_left ? pts0_ext : pts1_ext,
+                          num_features, grid_x, grid_y, threshold, true);
+                      (is_left ? orb0 : orb1)->compute(is_left ? img0 : img1, is_left ? pts0_ext : pts1_ext, is_left ? desc0_ext : desc1_ext);
+                    }
+                    else if(useBRISK)
+                    {
+                      Grider_BRISK::perform_griding(is_left ? img0 : img1, is_left ? mask0 : mask1, is_left ? pts0_ext : pts1_ext,
+                          num_features, grid_x, grid_y, threshold, brisk_detector, is_left ? desc0_ext : desc1_ext);
+                    }
                   }
                 }));
 

@@ -52,9 +52,23 @@ public:
    * @param minpxdist features need to be at least this number pixels away from each other
    */
   explicit TrackKLT(std::unordered_map<size_t, std::shared_ptr<CamBase>> cameras, int numfeats, int numaruco, bool stereo,
-                    HistogramMethod histmethod, int fast_threshold, int gridx, int gridy, int minpxdist)
+                    HistogramMethod histmethod, int fast_threshold, int gridx, int gridy, int minpxdist, std::string _feature_type)
       : TrackBase(cameras, numfeats, numaruco, stereo, histmethod), threshold(fast_threshold), grid_x(gridx), grid_y(gridy),
-        min_px_dist(minpxdist) {}
+        min_px_dist(minpxdist)
+        {
+          feature_type = _feature_type;
+          if(!feature_type.compare("FAST"))
+          {
+            useFAST = true;
+            useBRISK = false;
+          }
+          else if(feature_type.compare("BRISK"))
+          {
+            useFAST = false;
+            useBRISK = true;
+          }
+          PRINT_INFO(RED "Track KLT Init" RESET);
+        }
 
   /**
    * @brief Process a new image
@@ -147,6 +161,10 @@ protected:
   std::map<size_t, std::vector<cv::Mat>> img_pyramid_last;
   std::map<size_t, cv::Mat> img_curr;
   std::map<size_t, std::vector<cv::Mat>> img_pyramid_curr;
+
+  std::string feature_type;
+  bool useFAST = false;
+  bool useBRISK = false;
 };
 
 } // namespace ov_core

@@ -58,16 +58,17 @@ public:
         min_px_dist(minpxdist), knn_ratio(knnratio) 
         {
           feature_type = _feature_type;
-          if(!strcmp(feature_type, "FAST"))
+          if(!feature_type.compare("FAST"))
           {
             useFAST = true;
             useBRISK = false;
           }
-          else if(!strcmp(feature_type, "BRISK"))
+          else if(feature_type.compare("BRISK"))
           {
             useFAST = false;
             useBRISK = true;
           }
+          PRINT_INFO(RED "Track Descriptor Init" RESET);
         }
 
   /**

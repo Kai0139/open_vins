@@ -71,7 +71,7 @@ public:
    * It will then return the best from each grid in the return vector.
    */
   static void perform_griding(const cv::Mat &img, const cv::Mat &mask, std::vector<cv::KeyPoint> &pts, int num_features, int grid_x,
-                              int grid_y, int threshold, bool nonmaxSuppression cv::Ptr<cv::BRISK> brisk_detector) {
+                              int grid_y, int threshold, cv::Ptr<cv::BRISK> brisk_detector, cv::Mat &desc) {
 
     // We want to have equally distributed features
     // NOTE: If we have more grids than number of total points, we calc the biggest grid we can do
@@ -116,7 +116,8 @@ public:
 
                       // Extract FAST features for this part of the image
                       std::vector<cv::KeyPoint> pts_new;
-                      cv::FAST(img(img_roi), pts_new, threshold, nonmaxSuppression);
+                      std::cout << "detecting brisk features" << std::endl;
+                      brisk_detector->detectAndCompute(img(img_roi), cv::Mat(), pts, desc);
 
                       // Now lets get the top number from this
                       std::sort(pts_new.begin(), pts_new.end(), Grider_FAST::compare_response);
