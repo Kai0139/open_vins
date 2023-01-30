@@ -19,8 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef OV_CORE_GRIDER_FAST_H
-#define OV_CORE_GRIDER_FAST_H
+#ifndef OV_CORE_GRIDER_BRISK_H
+#define OV_CORE_GRIDER_BRISK_H
 
 #include <Eigen/Eigen>
 #include <functional>
@@ -43,11 +43,9 @@ namespace ov_core {
  * Thus we split the image into a bunch of small grids, and extract points in each.
  * We then pick enough top points in each grid so that we have the total number of desired points.
  */
-class Grider_FAST {
+class Grider_BRISK {
 
 public:
-
-  cv::Ptr<cv::BRISK> brisk_detector = cv::BRISK::create();
   /**
    * @brief Compare keypoints based on their response value.
    * @param first First keypoint
@@ -73,7 +71,7 @@ public:
    * It will then return the best from each grid in the return vector.
    */
   static void perform_griding(const cv::Mat &img, const cv::Mat &mask, std::vector<cv::KeyPoint> &pts, int num_features, int grid_x,
-                              int grid_y, int threshold, bool nonmaxSuppression) {
+                              int grid_y, int threshold, bool nonmaxSuppression cv::Ptr<cv::BRISK> brisk_detector) {
 
     // We want to have equally distributed features
     // NOTE: If we have more grids than number of total points, we calc the biggest grid we can do
@@ -178,4 +176,4 @@ public:
 
 } // namespace ov_core
 
-#endif /* OV_CORE_GRIDER_FAST_H */
+#endif /* OV_CORE_GRIDER_BRISK_H */

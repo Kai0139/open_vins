@@ -24,6 +24,7 @@
 #include <opencv2/features2d.hpp>
 
 #include "Grider_FAST.h"
+#include "Grider_BRISK.h"
 #include "cam/CamBase.h"
 #include "feat/Feature.h"
 #include "feat/FeatureDatabase.h"

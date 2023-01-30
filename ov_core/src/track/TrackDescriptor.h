@@ -37,6 +37,8 @@ namespace ov_core {
 class TrackDescriptor : public TrackBase {
 
 public:
+  bool useFAST = false;
+  bool useBRISK = false;
   /**
    * @brief Public constructor with configuration variables
    * @param cameras camera calibration object which has all camera intrinsics in it
@@ -53,7 +55,20 @@ public:
   explicit TrackDescriptor(std::unordered_map<size_t, std::shared_ptr<CamBase>> cameras, int numfeats, int numaruco, bool stereo,
                            HistogramMethod histmethod, int fast_threshold, int gridx, int gridy, int minpxdist, double knnratio, std::string _feature_type)
       : TrackBase(cameras, numfeats, numaruco, stereo, histmethod), threshold(fast_threshold), grid_x(gridx), grid_y(gridy),
-        min_px_dist(minpxdist), knn_ratio(knnratio) {feature_type = _feature_type;}
+        min_px_dist(minpxdist), knn_ratio(knnratio) 
+        {
+          feature_type = _feature_type;
+          if(!strcmp(feature_type, "FAST"))
+          {
+            useFAST = true;
+            useBRISK = false;
+          }
+          else if(!strcmp(feature_type, "BRISK"))
+          {
+            useFAST = false;
+            useBRISK = true;
+          }
+        }
 
   /**
    * @brief Process a new image
@@ -164,7 +179,10 @@ protected:
   // then the two features are too close, so should be considered ambiguous/bad match
   double knn_ratio;
 
+  // Feature type (FAST, BRISK)
   std::string feature_type;
+  // Detector for BRISK feature
+  cv::Ptr<cv::BRISK> brisk_detector = cv::BRISK::create();
 
   // Descriptor matrices
   std::unordered_map<size_t, cv::Mat> desc_last;
