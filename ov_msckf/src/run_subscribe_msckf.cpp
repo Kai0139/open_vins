@@ -75,7 +75,7 @@ int main(int argc, char **argv) {
 #endif
 
   // Verbosity
-  std::string verbosity = "DEBUG";
+  std::string verbosity = "INFO";
   parser->parse_config("verbosity", verbosity);
   ov_core::Printer::setPrintLevel(verbosity);
 

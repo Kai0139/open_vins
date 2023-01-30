@@ -51,9 +51,9 @@ public:
    * @param knnratio matching ratio needed (smaller value forces top two descriptors during match to be more different)
    */
   explicit TrackDescriptor(std::unordered_map<size_t, std::shared_ptr<CamBase>> cameras, int numfeats, int numaruco, bool stereo,
-                           HistogramMethod histmethod, int fast_threshold, int gridx, int gridy, int minpxdist, double knnratio)
+                           HistogramMethod histmethod, int fast_threshold, int gridx, int gridy, int minpxdist, double knnratio, std::string _feature_type)
       : TrackBase(cameras, numfeats, numaruco, stereo, histmethod), threshold(fast_threshold), grid_x(gridx), grid_y(gridy),
-        min_px_dist(minpxdist), knn_ratio(knnratio) {}
+        min_px_dist(minpxdist), knn_ratio(knnratio) {feature_type = _feature_type;}
 
   /**
    * @brief Process a new image
@@ -163,6 +163,8 @@ protected:
   // The ratio between two kNN matches, if that ratio is larger then this threshold
   // then the two features are too close, so should be considered ambiguous/bad match
   double knn_ratio;
+
+  std::string feature_type;
 
   // Descriptor matrices
   std::unordered_map<size_t, cv::Mat> desc_last;
