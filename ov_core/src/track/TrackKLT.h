@@ -165,6 +165,7 @@ protected:
   std::string feature_type;
   bool useFAST = false;
   bool useBRISK = false;
+  cv::Ptr<cv::BRISK> brisk_detector = cv::BRISK::create();
 };
 
 } // namespace ov_core

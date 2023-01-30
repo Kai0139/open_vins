@@ -23,6 +23,7 @@
 
 #include "Grider_FAST.h"
 #include "Grider_GRID.h"
+#include "Grider_GRID_BRISK.h"
 #include "cam/CamBase.h"
 #include "feat/Feature.h"
 #include "feat/FeatureDatabase.h"
