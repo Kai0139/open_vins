@@ -58,16 +58,20 @@ public:
         min_px_dist(minpxdist), knn_ratio(knnratio) 
         {
           feature_type = _feature_type;
+          PRINT_INFO("feature_type = %s\n", feature_type.c_str());
+          PRINT_INFO("feature_type FAST : %i\n", feature_type.compare("FAST"));
+          PRINT_INFO("feature_type BRISK %i\n", feature_type.compare("BRISK"));
           if(!feature_type.compare("FAST"))
           {
             useFAST = true;
             useBRISK = false;
           }
-          else if(feature_type.compare("BRISK"))
+          else if(!feature_type.compare("BRISK"))
           {
             useFAST = false;
             useBRISK = true;
           }
+          brisk_detector = cv::BRISK::create(fast_threshold);
           PRINT_INFO(RED "Track Descriptor Init" RESET);
         }
 
@@ -183,7 +187,7 @@ protected:
   // Feature type (FAST, BRISK)
   std::string feature_type;
   // Detector for BRISK feature
-  cv::Ptr<cv::BRISK> brisk_detector = cv::BRISK::create();
+  cv::Ptr<cv::BRISK> brisk_detector;
 
   // Descriptor matrices
   std::unordered_map<size_t, cv::Mat> desc_last;

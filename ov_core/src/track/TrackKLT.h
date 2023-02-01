@@ -57,17 +57,21 @@ public:
         min_px_dist(minpxdist)
         {
           feature_type = _feature_type;
+          PRINT_INFO("feature_type = %s\n", feature_type.c_str());
+          PRINT_INFO("feature_type FAST : %i\n", feature_type.compare("FAST"));
+          PRINT_INFO("feature_type BRISK %i\n", feature_type.compare("BRISK"));
           if(!feature_type.compare("FAST"))
           {
             useFAST = true;
             useBRISK = false;
           }
-          else if(feature_type.compare("BRISK"))
+          else if(!feature_type.compare("BRISK"))
           {
             useFAST = false;
             useBRISK = true;
           }
-          PRINT_INFO(RED "Track KLT Init" RESET);
+          brisk_detector = cv::BRISK::create(fast_threshold);
+          PRINT_INFO(RED "Track KLT Init\n" RESET);
         }
 
   /**
@@ -165,7 +169,7 @@ protected:
   std::string feature_type;
   bool useFAST = false;
   bool useBRISK = false;
-  cv::Ptr<cv::BRISK> brisk_detector = cv::BRISK::create();
+  cv::Ptr<cv::BRISK> brisk_detector;
 };
 
 } // namespace ov_core

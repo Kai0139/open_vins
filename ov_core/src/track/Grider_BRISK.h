@@ -116,8 +116,7 @@ public:
 
                       // Extract FAST features for this part of the image
                       std::vector<cv::KeyPoint> pts_new;
-                      std::cout << "detecting brisk features" << std::endl;
-                      brisk_detector->detectAndCompute(img(img_roi), cv::Mat(), pts, desc);
+                      brisk_detector->detectAndCompute(img(img_roi), cv::Mat(), pts_new, desc);
 
                       // Now lets get the top number from this
                       std::sort(pts_new.begin(), pts_new.end(), Grider_FAST::compare_response);

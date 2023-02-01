@@ -73,7 +73,7 @@ public:
    */
   static void perform_griding(const cv::Mat &img, const cv::Mat &mask, const std::vector<std::pair<int, int>> &valid_locs,
                               std::vector<cv::KeyPoint> &pts, int num_features, int grid_x, int grid_y, int threshold,
-                              bool nonmaxSuppression) {
+                              cv::Ptr<cv::BRISK> brisk_detector) {
 
     // Return if there is nothing to extract
     if (valid_locs.empty())
@@ -105,6 +105,7 @@ public:
 
     // Parallelize our 2d grid extraction!!
     std::vector<std::vector<cv::KeyPoint>> collection(valid_locs.size());
+
     parallel_for_(cv::Range(0, (int)valid_locs.size()), LambdaBody([&](const cv::Range &range) {
                     for (int r = range.start; r < range.end; r++) {
 
@@ -122,8 +123,9 @@ public:
 
                       // Extract FAST features for this part of the image
                       std::vector<cv::KeyPoint> pts_new;
-                      cv::FAST(img(img_roi), pts_new, threshold, nonmaxSuppression);
-
+                      // cv::Mat img_snip = img(img_roi);
+                      cv::Mat mask_, desc_;
+                      brisk_detector->detectAndCompute(img(img_roi), mask_, pts_new, desc_);
                       // Now lets get the top number from this
                       std::sort(pts_new.begin(), pts_new.end(), Grider_FAST::compare_response);
 
