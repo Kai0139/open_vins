@@ -1,0 +1,28 @@
+%YAML:1.0
+
+cam0:
+  T_imu_cam: #rotation from camera to IMU R_CtoI, position of camera in IMU p_CinI
+    - [       0,         0,    1.0000,    0.3100]
+    - [ -1.0000,         0,         0,   -0.2000]
+    - [       0,   -1.0000,         0,   -0.2400]
+    - [       0,         0,         0,    1.0000]
+  cam_overlaps: [1]
+  camera_model: pinhole
+  distortion_coeffs: [ -3.5808823350000002e-01, 9.9431845300000002e-02, 0., 0., 0. ]
+  distortion_model: plumb_bob
+  intrinsics: [2.5233871067517285e+02, 2.5233871067517285e+02, 3.0724241065979004e+02, 2.5017333030700684e+02] #fu, fv, cu, cv
+  resolution: [640, 512]
+  rostopic: /thermal_14bit/left/image_raw
+cam1:
+  T_imu_cam: #rotation from camera to IMU R_CtoI, position of camera in IMU p_CinI
+    - [-0.00362218,  0.02099524,  0.99974601,  0.29985902]
+    - [-0.99998594, -0.00107534, -0.00357808, -0.20416683]
+    - [ 0.00102412, -0.99975787,  0.0210028 , -0.21266416]
+    - [ 0.        ,  0.        ,  0.        ,  1.        ]
+  cam_overlaps: [0]
+  camera_model: pinhole
+  distortion_coeffs: [ -4.2843872979999997e-01, 1.9476135429999999e-01, 0., 0., 0. ]
+  distortion_model: plumb_bob
+  intrinsics: [2.5233871067517285e+02, 2.5233871067517285e+02, 3.0724241065979004e+02, 2.5017333030700684e+02] #fu, fv, cu, cv
+  resolution: [640, 512]
+  rostopic: /thermal_14bit/right/image_raw
