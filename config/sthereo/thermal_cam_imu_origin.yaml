@@ -12,7 +12,7 @@ cam0:
   distortion_model: plumb_bob
   intrinsics: [2.5233871067517285e+02, 2.5233871067517285e+02, 3.0724241065979004e+02, 2.5017333030700684e+02] #fu, fv, cu, cv
   resolution: [640, 512]
-  rostopic: /thermal_14bit/left/image_raw
+  rostopic: /thermal_14bit/left/image_mono
 cam1:
   T_imu_cam: #rotation from camera to IMU R_CtoI, position of camera in IMU p_CinI
     - [-0.00362218,  0.02099524,  0.99974601,  0.29985902]
@@ -25,4 +25,4 @@ cam1:
   distortion_model: plumb_bob
   intrinsics: [2.5233871067517285e+02, 2.5233871067517285e+02, 3.0724241065979004e+02, 2.5017333030700684e+02] #fu, fv, cu, cv
   resolution: [640, 512]
-  rostopic: /thermal_14bit/right/image_raw
+  rostopic: /thermal_14bit/right/image_mono
