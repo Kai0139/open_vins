@@ -368,8 +368,8 @@ struct VioManagerOptions {
   /// Parameters used by our feature initialize / triangulator
   ov_core::FeatureInitializerOptions featinit_options;
 
-  // Feature type
-  std::string feature_type;
+  // Custom Param Struct
+  ov_core::CustomParams custom_params;
 
   /**
    * @brief This function will load print out all parameters related to visual tracking
@@ -392,9 +392,20 @@ struct VioManagerOptions {
       parser->parse_config("grid_x", grid_x);
       parser->parse_config("grid_y", grid_y);
       parser->parse_config("min_px_dist", min_px_dist);
-      // Add a parameter for different features
-      parser->parse_config("feature_type", feature_type);
-      PRINT_INFO(BOLDRED "Use feature type: %s\n" RESET, feature_type.c_str());
+      // Add custom params
+      parser->parse_config("feature_type", custom_params.feature_type);
+      parser->parse_config("apply_filter", custom_params.apply_filter);
+      parser->parse_config("filter_type", custom_params.filter_type);
+      parser->parse_config("bilateral_d", custom_params.bilateral_d);
+      parser->parse_config("bilateral_sigma_color", custom_params.bilateral_sigma_color);
+      parser->parse_config("bilateral_sigma_space", custom_params.bilateral_sigma_space);
+
+      PRINT_INFO(BOLDRED "Use feature type: %s\n" RESET, custom_params.feature_type.c_str());
+      PRINT_INFO(BOLDRED "apply_filter: %i\n" RESET, custom_params.apply_filter);
+      PRINT_INFO(BOLDRED "filter_type: %s\n" RESET, custom_params.filter_type.c_str());
+      PRINT_INFO(BOLDRED "bilateral_d: %i\n" RESET, custom_params.bilateral_d);
+      PRINT_INFO(BOLDRED "bilateral_sigma_color: %f\n" RESET, custom_params.bilateral_sigma_color);
+      PRINT_INFO(BOLDRED "bilateral_sigma_space: %f\n" RESET, custom_params.bilateral_sigma_space);
 
       std::string histogram_method_str = "HISTOGRAM";
       parser->parse_config("histogram_method", histogram_method_str);

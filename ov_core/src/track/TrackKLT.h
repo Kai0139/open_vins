@@ -23,6 +23,7 @@
 #define OV_CORE_TRACK_KLT_H
 
 #include "TrackBase.h"
+#include "utils/opencv_yaml_parse.h"
 
 namespace ov_core {
 
@@ -52,20 +53,20 @@ public:
    * @param minpxdist features need to be at least this number pixels away from each other
    */
   explicit TrackKLT(std::unordered_map<size_t, std::shared_ptr<CamBase>> cameras, int numfeats, int numaruco, bool stereo,
-                    HistogramMethod histmethod, int fast_threshold, int gridx, int gridy, int minpxdist, std::string _feature_type)
+                    HistogramMethod histmethod, int fast_threshold, int gridx, int gridy, int minpxdist, ov_core::CustomParams _custom_params)
       : TrackBase(cameras, numfeats, numaruco, stereo, histmethod), threshold(fast_threshold), grid_x(gridx), grid_y(gridy),
         min_px_dist(minpxdist)
         {
-          feature_type = _feature_type;
-          PRINT_INFO("feature_type = %s\n", feature_type.c_str());
-          PRINT_INFO("feature_type FAST : %i\n", feature_type.compare("FAST"));
-          PRINT_INFO("feature_type BRISK %i\n", feature_type.compare("BRISK"));
-          if(!feature_type.compare("FAST"))
+          custom_params = _custom_params;
+          PRINT_INFO("feature_type = %s\n", custom_params.feature_type.c_str());
+          PRINT_INFO("feature_type FAST : %i\n", custom_params.feature_type.compare("FAST"));
+          PRINT_INFO("feature_type BRISK %i\n", custom_params.feature_type.compare("BRISK"));
+          if(!custom_params.feature_type.compare("FAST"))
           {
             useFAST = true;
             useBRISK = false;
           }
-          else if(!feature_type.compare("BRISK"))
+          else if(!custom_params.feature_type.compare("BRISK"))
           {
             useFAST = false;
             useBRISK = true;
@@ -166,7 +167,8 @@ protected:
   std::map<size_t, cv::Mat> img_curr;
   std::map<size_t, std::vector<cv::Mat>> img_pyramid_curr;
 
-  std::string feature_type;
+  // Custom parameters
+  ov_core::CustomParams custom_params;
   bool useFAST = false;
   bool useBRISK = false;
   cv::Ptr<cv::BRISK> brisk_detector;

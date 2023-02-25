@@ -78,7 +78,7 @@ filepath_gt: "/tmp/ov_groundtruth.txt"
 # our front-end feature tracking parameters
 # we have a KLT and descriptor based (KLT is better implemented...)
 use_klt: true # if true we will use KLT, otherwise use a ORB descriptor + robust matching
-num_pts: 200 # number of points (per camera) we will extract and try to track
+num_pts: 300 # number of points (per camera) we will extract and try to track
 fast_threshold: 12 # threshold for fast extraction (warning: lower threshs can be expensive)
 grid_x: 5 # extraction sub-grid count for horizontal direction (uniform tracking)
 grid_y: 5 # extraction sub-grid count for vertical direction (uniform tracking)
@@ -108,10 +108,21 @@ up_aruco_chi2_multipler: 1
 
 # masks for our images
 use_mask: false
-feature_type: "BRISK"
-# feature_type: "FAST"
 
 # imu and camera spacial-temporal
 # imu config should also have the correct noise values
 relative_config_imu: "frame_imu.yaml"
 relative_config_imucam: "thermal_cam_imu_mod.yaml"
+
+# ==================================================================
+# ==================================================================
+
+# Customizations
+feature_type: "BRISK"
+# feature_type: "FAST"
+
+apply_filter: true
+filter_type: "bilateral"
+bilateral_d: 3
+bilateral_sigma_space: 5.0
+bilateral_sigma_color: 8.0

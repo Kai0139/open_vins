@@ -614,6 +614,16 @@ private:
   }
 };
 
+// Custom param struct
+struct  CustomParams {
+  std::string feature_type;
+  bool apply_filter;
+  std::string filter_type;
+  int bilateral_d;
+  double bilateral_sigma_color;
+  double bilateral_sigma_space;
+};
+
 } /* namespace ov_core */
 
 #endif /* OPENCV_YAML_PARSER_H */

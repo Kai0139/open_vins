@@ -56,15 +56,32 @@ void TrackKLT::feed_new_camera(const CameraData &message) {
 
     // Histogram equalize
     cv::Mat img;
+
+    // Filter
+    cv::Mat img_format = message.images.at(msg_id).clone();
+    cv::Mat img_filtered;
+    //  = message.images.at(msg_id)
+    if (custom_params.apply_filter)
+    {
+      if (!custom_params.filter_type.compare("bilateral"))
+      {
+        cv::bilateralFilter(img_format, img_filtered, 
+          custom_params.bilateral_d, custom_params.bilateral_sigma_color, custom_params.bilateral_sigma_space);
+      }
+    }
+    else{
+      img_filtered = img_format;
+    }
+
     if (histogram_method == HistogramMethod::HISTOGRAM) {
-      cv::equalizeHist(message.images.at(msg_id), img);
+      cv::equalizeHist(img_filtered, img);
     } else if (histogram_method == HistogramMethod::CLAHE) {
       double eq_clip_limit = 10.0;
       cv::Size eq_win_size = cv::Size(8, 8);
       cv::Ptr<cv::CLAHE> clahe = cv::createCLAHE(eq_clip_limit, eq_win_size);
-      clahe->apply(message.images.at(msg_id), img);
+      clahe->apply(img_filtered, img);
     } else {
-      img = message.images.at(msg_id);
+      img = img_filtered;
     }
 
     // Extract image pyramid
@@ -209,6 +226,11 @@ void TrackKLT::feed_stereo(const CameraData &message, size_t msg_id_left, size_t
   // Get our image objects for this image
   cv::Mat img_left = img_curr.at(cam_id_left);
   cv::Mat img_right = img_curr.at(cam_id_right);
+  if(custom_params.apply_filter)
+  {
+    
+  }
+
   std::vector<cv::Mat> imgpyr_left = img_pyramid_curr.at(cam_id_left);
   std::vector<cv::Mat> imgpyr_right = img_pyramid_curr.at(cam_id_right);
   cv::Mat mask_left = message.masks.at(msg_id_left);

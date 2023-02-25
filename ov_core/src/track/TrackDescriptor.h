@@ -23,6 +23,7 @@
 #define OV_CORE_TRACK_DESC_H
 
 #include "TrackBase.h"
+#include "utils/opencv_yaml_parse.h"
 
 namespace ov_core {
 
@@ -53,20 +54,20 @@ public:
    * @param knnratio matching ratio needed (smaller value forces top two descriptors during match to be more different)
    */
   explicit TrackDescriptor(std::unordered_map<size_t, std::shared_ptr<CamBase>> cameras, int numfeats, int numaruco, bool stereo,
-                           HistogramMethod histmethod, int fast_threshold, int gridx, int gridy, int minpxdist, double knnratio, std::string _feature_type)
+                           HistogramMethod histmethod, int fast_threshold, int gridx, int gridy, int minpxdist, double knnratio, ov_core::CustomParams _custom_params)
       : TrackBase(cameras, numfeats, numaruco, stereo, histmethod), threshold(fast_threshold), grid_x(gridx), grid_y(gridy),
         min_px_dist(minpxdist), knn_ratio(knnratio) 
         {
-          feature_type = _feature_type;
-          PRINT_INFO("feature_type = %s\n", feature_type.c_str());
-          PRINT_INFO("feature_type FAST : %i\n", feature_type.compare("FAST"));
-          PRINT_INFO("feature_type BRISK %i\n", feature_type.compare("BRISK"));
-          if(!feature_type.compare("FAST"))
+          ov_core::CustomParams custom_params = _custom_params;
+          PRINT_INFO("feature_type = %s\n", custom_params.feature_type.c_str());
+          PRINT_INFO("feature_type FAST : %i\n", custom_params.feature_type.compare("FAST"));
+          PRINT_INFO("feature_type BRISK %i\n", custom_params.feature_type.compare("BRISK"));
+          if(!custom_params.feature_type.compare("FAST"))
           {
             useFAST = true;
             useBRISK = false;
           }
-          else if(!feature_type.compare("BRISK"))
+          else if(!custom_params.feature_type.compare("BRISK"))
           {
             useFAST = false;
             useBRISK = true;
@@ -184,8 +185,8 @@ protected:
   // then the two features are too close, so should be considered ambiguous/bad match
   double knn_ratio;
 
-  // Feature type (FAST, BRISK)
-  std::string feature_type;
+  // Custom parameters
+  ov_core::CustomParams custom_params;
   // Detector for BRISK feature
   cv::Ptr<cv::BRISK> brisk_detector;
 
