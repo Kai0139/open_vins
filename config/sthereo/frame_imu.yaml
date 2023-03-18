@@ -13,4 +13,4 @@ imu0:
   model: calibrated
   rostopic: /imu/data_raw
   time_offset: 0
-  update_rate: 200.0
+  update_rate: 100.0
